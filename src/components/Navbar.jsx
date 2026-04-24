@@ -8,9 +8,9 @@ function Navbar({ favCount = 0 }) {
   return (
     <header className="navbar">
       <div className="container navbar-content">
-        <Link className="logo" to="/" aria-label="Recipe Finder home">
-          <img src={logo} alt="Recipe Finder Logo" className="navbar-logo" />
-          <span className="logo-text">RECIPE FINDER</span>
+        <Link className="logo" to="/" aria-label="Cookland home">
+          <img src={logo} alt="Cookland Logo" className="navbar-logo" />
+          <span className="logo-text">COOKLAND</span>
         </Link>
 
         <nav className="nav-links">
