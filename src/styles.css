@@ -41,37 +41,23 @@ body {
 }
 
 .navbar-content {
-  height: 68px;
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.logo-mark {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #d7af6e, #b98334);
-  color: #fffdf8;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
-
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   text-decoration: none;
 }
 
-.logo-svg {
-  width: 38px;
-  height: 38px;
-  flex-shrink: 0;
+.navbar-logo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
 }
 
 .logo-text {
@@ -935,13 +921,10 @@ body {
   }
 
   .navbar-content {
-    height: 72px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    height: 64px;
   }
 
   .logo-text {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 }

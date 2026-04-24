@@ -1,9 +1,10 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { useLanguage } from '../context/LanguageContext';
 
 function Navbar({ favCount = 0 }) {
   const { lang, toggle, t } = useLanguage();
+  const location = useLocation();
 
   return (
     <header className="navbar">
@@ -14,11 +15,13 @@ function Navbar({ favCount = 0 }) {
         </Link>
 
         <nav className="nav-links">
-          <NavLink to="/" end>{t.navbar.explore}</NavLink>
-          <NavLink to="/favorites">
+          <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
+            {t.navbar.explore}
+          </Link>
+          <Link to="/favorites" className={location.pathname === '/favorites' ? 'active' : ''}>
             {t.navbar.favorites}
             {favCount > 0 && <span className="fav-badge">{favCount}</span>}
-          </NavLink>
+          </Link>
 
           <div className="lang-toggle">
             <button
