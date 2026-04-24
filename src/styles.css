@@ -69,18 +69,18 @@ body {
 }
 
 .navbar-logo {
-  height: 158px;  
-  margin-right: -58px;
+  height: 158px;
+  margin-right: -40px;
   width: auto;
   object-fit: contain;
 }
 
 .logo-text {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   color: #3c3128;
-  line-height: 1; 
+  line-height: 1;
 }
 
 .app-main {
@@ -951,7 +951,7 @@ body {
 
   .navbar-logo {
     height: 158px;
-    margin-right: -88px;
+    margin-right: -40px;
     margin-left: -40px;
     width: auto;
     object-fit: contain;
@@ -961,7 +961,7 @@ body {
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: 0.18em;
-    line-height: 1; 
+    line-height: 1;
     color: #3c3128;
   }
 }

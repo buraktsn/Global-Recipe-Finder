@@ -2,7 +2,7 @@ const translations = {
   en: {
     navbar: {
       explore: 'Explore',
-      favorites: 'Favorites',
+      favorites: '♥ Favorites',
     },
     hero: {
       title: 'Discover Recipes From Around the World',
