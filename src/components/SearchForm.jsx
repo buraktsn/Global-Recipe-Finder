@@ -1,3 +1,5 @@
+import { useLanguage } from '../context/LanguageContext';
+
 function SearchForm({
   activeTab,
   query,
@@ -8,6 +10,8 @@ function SearchForm({
   onRemoveIngredient,
   onSearch,
 }) {
+  const { t } = useLanguage();
+
   if (activeTab === 'ingredient') {
     return (
       <form className="search-form ingredient-form" onSubmit={onSearch}>
@@ -18,8 +22,8 @@ function SearchForm({
                 type="text"
                 value={ingredient}
                 onChange={(e) => onIngredientChange(index, e.target.value)}
-                placeholder={`e.g. ${['chicken', 'tomato', 'garlic', 'onion'][index] ?? `ingredient ${index + 1}`}`}
-                aria-label={`Ingredient ${index + 1}`}
+                placeholder={t.search.ingredientPlaceholder}
+                aria-label={`${t.search.byIngredient} ${index + 1}`}
                 className="search-input"
               />
               {ingredients.length > 1 && (
@@ -28,7 +32,7 @@ function SearchForm({
                   className="remove-ingredient-button"
                   onClick={() => onRemoveIngredient(index)}
                 >
-                  Remove
+                  {t.search.removeIngredient}
                 </button>
               )}
             </div>
@@ -36,9 +40,9 @@ function SearchForm({
         </div>
         <div className="ingredient-actions">
           <button type="button" className="add-ingredient-button" onClick={onAddIngredient}>
-            + Add Ingredient
+            {t.search.addIngredient}
           </button>
-          <button type="submit" className="search-button">Search</button>
+          <button type="submit" className="search-button">{t.search.searchButton}</button>
         </div>
       </form>
     );
@@ -50,11 +54,11 @@ function SearchForm({
         type="text"
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
-        placeholder="Search recipes (e.g. pasta, butter chicken, tacos…)"
-        aria-label="Search recipes by name"
+        placeholder={t.search.mealPlaceholder}
+        aria-label={t.search.mealPlaceholder}
         className="search-input"
       />
-      <button type="submit" className="search-button">Search</button>
+      <button type="submit" className="search-button">{t.search.searchButton}</button>
     </form>
   );
 }

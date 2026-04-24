@@ -1,4 +1,7 @@
+import { useLanguage } from '../context/LanguageContext';
+
 function SearchTabs({ activeTab, onChangeTab }) {
+  const { t } = useLanguage();
   return (
     <div className="tabs" role="tablist" aria-label="Recipe search mode">
       <button
@@ -8,7 +11,7 @@ function SearchTabs({ activeTab, onChangeTab }) {
         className={activeTab === 'meal' ? 'tab active' : 'tab'}
         onClick={() => onChangeTab('meal')}
       >
-        🔍 By Meal Name
+        {t.search.byMealName}
       </button>
       <button
         type="button"
@@ -17,7 +20,7 @@ function SearchTabs({ activeTab, onChangeTab }) {
         className={activeTab === 'ingredient' ? 'tab active' : 'tab'}
         onClick={() => onChangeTab('ingredient')}
       >
-        🥕 By Ingredient
+        {t.search.byIngredient}
       </button>
     </div>
   );

@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { LanguageProvider } from './context/LanguageContext';
 import { FavoritesProvider, useFavoritesContext } from './context/FavoritesContext';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
@@ -24,9 +25,11 @@ function AppShell() {
 
 function App() {
   return (
-    <FavoritesProvider>
-      <AppShell />
-    </FavoritesProvider>
+    <LanguageProvider>
+      <FavoritesProvider>
+        <AppShell />
+      </FavoritesProvider>
+    </LanguageProvider>
   );
 }
 

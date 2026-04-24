@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { searchRecipes } from '../api/spoonacular';
-import { useFavoritesContext } from '../context/FavoritesContext';
+import { useLanguage } from '../context/LanguageContext';
 import SearchForm from '../components/SearchForm';
 import SearchTabs from '../components/SearchTabs';
 import FilterPanel from '../components/FilterPanel';
@@ -16,7 +16,7 @@ const EMPTY_FILTERS = {
 const PAGE_SIZE = 12;
 
 function HomePage() {
-  const { favorites } = useFavoritesContext();
+  const { t } = useLanguage();
 
   const [activeTab, setActiveTab] = useState('meal');
   const [query, setQuery] = useState('');
@@ -95,13 +95,13 @@ function HomePage() {
     <div className="container page-content">
       <section className="hero-section">
         <div className="hero-overlay">
-          <h1>Discover Recipes From Around the World</h1>
-          <p>Search by name or ingredient, filter by cuisine and calories</p>
+          <h1>{t.hero.title}</h1>
+          <p>{t.hero.subtitle}</p>
         </div>
       </section>
 
       <section className="search-section">
-        <p className="search-lead">Search by meal name or ingredient and discover new dishes.</p>
+        <p className="search-lead">{t.search.lead}</p>
         <SearchTabs activeTab={activeTab} onChangeTab={handleTabChange} />
         <SearchForm
           activeTab={activeTab}
@@ -119,21 +119,17 @@ function HomePage() {
         />
       </section>
 
-      <FilterPanel
-        filters={filters}
-        onChange={setFilters}
-        onApply={handleSearch}
-      />
+      <FilterPanel filters={filters} onChange={setFilters} onApply={handleSearch} />
 
       <section className="results-section" aria-live="polite">
-        {loading && <div className="spinner" role="status" aria-label="Loading" />}
+        {loading && <div className="spinner" role="status" aria-label={t.results.loading} />}
         {error && <p className="state-message error">{error}</p>}
 
         {!loading && hasSearched && !error && (
           <p className="results-count">
             {recipes.length === 0
-              ? 'No recipes found. Try adjusting your search or filters.'
-              : <><strong>{recipes.length}</strong> of <strong>{totalResults}</strong> recipes</>}
+              ? t.results.noResults
+              : t.results.found(recipes.length, totalResults)}
           </p>
         )}
 
@@ -151,7 +147,7 @@ function HomePage() {
                 onClick={handleLoadMore}
                 disabled={loadingMore}
               >
-                {loadingMore ? <span className="spinner-inline" /> : 'Load More'}
+                {loadingMore ? <span className="spinner-inline" /> : t.results.loadMore}
               </button>
             )}
           </>
@@ -160,8 +156,8 @@ function HomePage() {
         {!loading && hasSearched && recipes.length === 0 && !error && (
           <div className="empty-state">
             <span className="empty-state-icon">🍽</span>
-            <h3>No recipes found</h3>
-            <p>Try a different search term or adjust your filters.</p>
+            <h3>{t.emptyState.title}</h3>
+            <p>{t.emptyState.subtitle}</p>
           </div>
         )}
       </section>
