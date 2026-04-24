@@ -8,8 +8,6 @@ function SearchForm({
   onRemoveIngredient,
   onSearch,
 }) {
-  const mealPlaceholder = 'Type a meal name (e.g. Arrabiata)';
-
   if (activeTab === 'ingredient') {
     return (
       <form className="search-form ingredient-form" onSubmit={onSearch}>
@@ -19,8 +17,8 @@ function SearchForm({
               <input
                 type="text"
                 value={ingredient}
-                onChange={(event) => onIngredientChange(index, event.target.value)}
-                placeholder={`Ingredient ${index + 1}`}
+                onChange={(e) => onIngredientChange(index, e.target.value)}
+                placeholder={`e.g. ${['chicken', 'tomato', 'garlic', 'onion'][index] ?? `ingredient ${index + 1}`}`}
                 aria-label={`Ingredient ${index + 1}`}
                 className="search-input"
               />
@@ -40,9 +38,7 @@ function SearchForm({
           <button type="button" className="add-ingredient-button" onClick={onAddIngredient}>
             + Add Ingredient
           </button>
-          <button type="submit" className="search-button">
-            Search
-          </button>
+          <button type="submit" className="search-button">Search</button>
         </div>
       </form>
     );
@@ -53,14 +49,12 @@ function SearchForm({
       <input
         type="text"
         value={query}
-        onChange={(event) => onQueryChange(event.target.value)}
-        placeholder={mealPlaceholder}
-        aria-label={mealPlaceholder}
+        onChange={(e) => onQueryChange(e.target.value)}
+        placeholder="Search recipes (e.g. pasta, butter chicken, tacos…)"
+        aria-label="Search recipes by name"
         className="search-input"
       />
-      <button type="submit" className="search-button">
-        Search
-      </button>
+      <button type="submit" className="search-button">Search</button>
     </form>
   );
 }

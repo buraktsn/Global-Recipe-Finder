@@ -8,7 +8,7 @@ function SearchTabs({ activeTab, onChangeTab }) {
         className={activeTab === 'meal' ? 'tab active' : 'tab'}
         onClick={() => onChangeTab('meal')}
       >
-        Search by Meal Name
+        🔍 By Meal Name
       </button>
       <button
         type="button"
@@ -17,7 +17,7 @@ function SearchTabs({ activeTab, onChangeTab }) {
         className={activeTab === 'ingredient' ? 'tab active' : 'tab'}
         onClick={() => onChangeTab('ingredient')}
       >
-        Search by Ingredient
+        🥕 By Ingredient
       </button>
     </div>
   );
