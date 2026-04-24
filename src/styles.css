@@ -932,12 +932,16 @@ body {
   }
 
   .logo {
+    display: flex;
+    align-items: center;
     justify-content: center;
     gap: 6px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .navbar-logo {
-    height: 52px;
+    height: 104px;
   }
 
   .logo-text {
