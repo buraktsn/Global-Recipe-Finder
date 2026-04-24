@@ -41,7 +41,7 @@ body {
 }
 
 .navbar-content {
-  height: 80px;
+  height: 90px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -55,7 +55,7 @@ body {
 }
 
 .navbar-logo {
-  height: 52px;
+  height: 70px;
   width: auto;
   object-fit: contain;
 }
