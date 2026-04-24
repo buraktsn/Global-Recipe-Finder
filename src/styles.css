@@ -65,13 +65,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  gap: 0px;
   text-decoration: none;
 }
 
 .navbar-logo {
   height: 158px;
-  margin-right: -20px;
+  margin-right: -50px;
+  margin-left: 0;
   width: auto;
   object-fit: contain;
 }
@@ -82,6 +83,7 @@ body {
   letter-spacing: 0.18em;
   color: #3c3128;
   line-height: 1;
+  margin-left: -45px;
 }
 
 .app-main {
@@ -952,8 +954,8 @@ body {
 
   .navbar-logo {
     height: 158px;
-    margin-right: -20px;
-    margin-left: -40px;
+    margin-right: -50px;
+    margin-left: 0;
     width: auto;
     object-fit: contain;
   }
