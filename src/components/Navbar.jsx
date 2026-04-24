@@ -28,7 +28,7 @@ function Navbar({ favCount = 0 }) {
             >
               TR
             </button>
-<button
+            <button
               className={`lang-btn${lang === 'en' ? ' lang-btn--active' : ''}`}
               onClick={toggle}
               aria-label="English"
