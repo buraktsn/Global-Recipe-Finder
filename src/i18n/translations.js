@@ -1,5 +1,6 @@
 const translations = {
   en: {
+    siteName: 'CookLand',
     navbar: {
       explore: 'Explore',
       favorites: '♥ Favorites',
@@ -68,6 +69,7 @@ const translations = {
   },
 
   tr: {
+    siteName: 'LezzetDiyarı',
     navbar: {
       explore: 'Keşfet',
       favorites: '♥ Favoriler',
