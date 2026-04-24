@@ -50,7 +50,7 @@ body {
 .logo {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
   text-decoration: none;
 }
 
@@ -58,6 +58,7 @@ body {
   height: 120px;
   width: auto;
   object-fit: contain;
+  margin: 0;
 }
 
 .logo-text {
@@ -895,7 +896,7 @@ body {
 }
 
 /* ── Responsive additions ── */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .app-main {
     padding-top: 16px;
   }
@@ -921,10 +922,35 @@ body {
   }
 
   .navbar-content {
-    height: 64px;
+    height: auto;
+    padding: 10px 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .navbar-logo {
+    height: 44px;
   }
 
   .logo-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+  }
+
+  .nav-links {
+    gap: 4px;
+  }
+
+  .nav-links a {
+    padding: 6px 8px;
+    font-size: 0.85rem;
+  }
+
+  .lang-toggle {
+    padding: 3px 7px;
+  }
+
+  .lang-btn {
+    font-size: 0.78rem;
   }
 }
