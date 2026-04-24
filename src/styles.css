@@ -923,34 +923,35 @@ body {
 
   .navbar-content {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: auto;
-    padding: 8px 12px;
+    padding: 12px 8px;
+    gap: 8px;
   }
 
   .logo {
-    gap: 4px;
-    flex-shrink: 0;
+    justify-content: center;
+    gap: 6px;
   }
 
   .navbar-logo {
-    height: 36px;
+    height: 52px;
   }
 
   .logo-text {
-    font-size: 0.95rem;
-    letter-spacing: 0.12em;
+    font-size: 1.2rem;
+    letter-spacing: 0.15em;
   }
 
   .nav-links {
     display: flex;
     flex-direction: row;
-    gap: 4px;
+    justify-content: center;
     align-items: center;
-    flex-shrink: 0;
+    width: 100%;
+    gap: 8px;
   }
 
   .nav-links a {
