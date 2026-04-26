@@ -1,3 +1,73 @@
+import { useState, useRef } from 'react';
+import { autocompleteIngredients } from '../api/spoonacular';
+
+function IngredientInput({ index, value, total, onChange, onRemove }) {
+  const [suggestions, setSuggestions] = useState([]);
+  const [open, setOpen] = useState(false);
+  const timerRef = useRef(null);
+
+  function handleChange(e) {
+    const val = e.target.value;
+    onChange(index, val);
+    clearTimeout(timerRef.current);
+    if (val.trim().length < 2) {
+      setSuggestions([]);
+      setOpen(false);
+      return;
+    }
+    timerRef.current = setTimeout(async () => {
+      const results = await autocompleteIngredients(val.trim());
+      setSuggestions(results);
+      setOpen(results.length > 0);
+    }, 300);
+  }
+
+  function handleSelect(name) {
+    onChange(index, name);
+    setSuggestions([]);
+    setOpen(false);
+  }
+
+  function handleBlur() {
+    setTimeout(() => setOpen(false), 150);
+  }
+
+  return (
+    <div className="ingredient-row">
+      <div className="autocomplete-wrapper">
+        <input
+          type="text"
+          value={value}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="e.g. chicken, tomato, garlic…"
+          aria-label={`Ingredient ${index + 1}`}
+          className="search-input"
+          autoComplete="off"
+        />
+        {open && (
+          <ul className="autocomplete-dropdown" role="listbox">
+            {suggestions.map(s => (
+              <li key={s.id} onMouseDown={() => handleSelect(s.name)} role="option">
+                {s.name}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      {total > 1 && (
+        <button
+          type="button"
+          className="remove-ingredient-button"
+          onClick={() => onRemove(index)}
+        >
+          Remove
+        </button>
+      )}
+    </div>
+  );
+}
+
 function SearchForm({
   activeTab,
   query,
@@ -13,25 +83,14 @@ function SearchForm({
       <form className="search-form ingredient-form" onSubmit={onSearch}>
         <div className="ingredient-inputs">
           {ingredients.map((ingredient, index) => (
-            <div key={`ingredient-${index + 1}`} className="ingredient-row">
-              <input
-                type="text"
-                value={ingredient}
-                onChange={(e) => onIngredientChange(index, e.target.value)}
-                placeholder="e.g. chicken, tomato, garlic…"
-                aria-label={`Ingredient ${index + 1}`}
-                className="search-input"
-              />
-              {ingredients.length > 1 && (
-                <button
-                  type="button"
-                  className="remove-ingredient-button"
-                  onClick={() => onRemoveIngredient(index)}
-                >
-                  Remove
-                </button>
-              )}
-            </div>
+            <IngredientInput
+              key={index}
+              index={index}
+              value={ingredient}
+              total={ingredients.length}
+              onChange={onIngredientChange}
+              onRemove={onRemoveIngredient}
+            />
           ))}
         </div>
         <div className="ingredient-actions">

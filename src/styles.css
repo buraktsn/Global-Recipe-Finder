@@ -315,6 +315,39 @@ body {
   gap: 12px;
 }
 
+.autocomplete-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  list-style: none;
+  padding: 4px 0;
+  margin: 0;
+  z-index: 100;
+}
+
+.autocomplete-dropdown li {
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  text-transform: capitalize;
+  transition: background 120ms;
+}
+
+.autocomplete-dropdown li:hover {
+  background: var(--bg-soft);
+}
+
 .remove-ingredient-button,
 .add-ingredient-button {
   border: 1px solid var(--accent-gold);

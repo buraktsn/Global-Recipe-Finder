@@ -61,6 +61,17 @@ export async function searchRecipes({
   return res.json();
 }
 
+export async function autocompleteIngredients(query, number = 5) {
+  const params = new URLSearchParams({ apiKey: API_KEY, query, number });
+  try {
+    const res = await fetch(`${BASE_URL}/food/ingredients/autocomplete?${params}`);
+    if (!res.ok) return [];
+    return res.json();
+  } catch {
+    return [];
+  }
+}
+
 export async function getRecipeById(id) {
   const params = new URLSearchParams({
     apiKey: API_KEY,
