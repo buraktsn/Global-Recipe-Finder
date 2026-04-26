@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { searchRecipes } from '../api/spoonacular';
+import { translateToEnglish } from '../api/translate';
 import { useLanguage } from '../context/LanguageContext';
 import SearchForm from '../components/SearchForm';
 import SearchTabs from '../components/SearchTabs';
@@ -16,7 +17,7 @@ const EMPTY_FILTERS = {
 const PAGE_SIZE = 12;
 
 function HomePage() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
 
   const [activeTab, setActiveTab] = useState('meal');
   const [query, setQuery] = useState('');
@@ -31,13 +32,13 @@ function HomePage() {
   const [error, setError] = useState('');
   const [hasSearched, setHasSearched] = useState(false);
 
-  function buildParams(currentOffset = 0) {
+  function buildParams(currentOffset = 0, overrides = {}) {
     const exclude = filters.excludeIngredients.filter(v => v.trim()).join(',');
     return {
-      query: activeTab === 'meal' ? query.trim() : '',
-      ingredients: activeTab === 'ingredient'
+      query: 'query' in overrides ? overrides.query : (activeTab === 'meal' ? query.trim() : ''),
+      ingredients: 'ingredients' in overrides ? overrides.ingredients : (activeTab === 'ingredient'
         ? ingredientInputs.filter(v => v.trim()).join(',')
-        : '',
+        : ''),
       excludeIngredients: exclude,
       cuisines: filters.cuisines,
       minCalories: filters.minCalories !== '' ? Number(filters.minCalories) : undefined,
@@ -54,7 +55,17 @@ function HomePage() {
     setHasSearched(true);
     setOffset(0);
     try {
-      const data = await searchRecipes(buildParams(0));
+      const overrides = {};
+      if (lang === 'tr') {
+        if (activeTab === 'meal' && query.trim()) {
+          overrides.query = await translateToEnglish(query.trim());
+        } else if (activeTab === 'ingredient') {
+          const filled = ingredientInputs.filter(v => v.trim());
+          const translated = await Promise.all(filled.map(ing => translateToEnglish(ing)));
+          overrides.ingredients = translated.join(',');
+        }
+      }
+      const data = await searchRecipes(buildParams(0, overrides));
       setRecipes(data.results ?? []);
       setTotalResults(data.totalResults ?? 0);
     } catch (err) {
