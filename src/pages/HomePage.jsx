@@ -17,7 +17,7 @@ const EMPTY_FILTERS = {
 const PAGE_SIZE = 12;
 
 function HomePage() {
-  const { lang, t } = useLanguage();
+  const { lang: language, t } = useLanguage();
 
   const [activeTab, setActiveTab] = useState('meal');
   const [query, setQuery] = useState('');
@@ -32,13 +32,11 @@ function HomePage() {
   const [error, setError] = useState('');
   const [hasSearched, setHasSearched] = useState(false);
 
-  function buildParams(currentOffset = 0, overrides = {}) {
+  function buildParams(currentOffset = 0, searchQuery = '', searchIngredients = []) {
     const exclude = filters.excludeIngredients.filter(v => v.trim()).join(',');
     return {
-      query: 'query' in overrides ? overrides.query : (activeTab === 'meal' ? query.trim() : ''),
-      ingredients: 'ingredients' in overrides ? overrides.ingredients : (activeTab === 'ingredient'
-        ? ingredientInputs.filter(v => v.trim()).join(',')
-        : ''),
+      query: activeTab === 'meal' ? searchQuery : '',
+      ingredients: activeTab === 'ingredient' ? searchIngredients.join(',') : '',
       excludeIngredients: exclude,
       cuisines: filters.cuisines,
       minCalories: filters.minCalories !== '' ? Number(filters.minCalories) : undefined,
@@ -55,17 +53,19 @@ function HomePage() {
     setHasSearched(true);
     setOffset(0);
     try {
-      const overrides = {};
-      if (lang === 'tr') {
-        if (activeTab === 'meal' && query.trim()) {
-          overrides.query = await translateToEnglish(query.trim());
-        } else if (activeTab === 'ingredient') {
-          const filled = ingredientInputs.filter(v => v.trim());
-          const translated = await Promise.all(filled.map(ing => translateToEnglish(ing)));
-          overrides.ingredients = translated.join(',');
-        }
+      console.log('[handleSearch] language:', language);
+      console.log('[handleSearch] original query:', query);
+      let searchQuery = query.trim();
+      let searchIngredients = ingredientInputs.map(i => i.trim()).filter(Boolean);
+      if (language === 'tr') {
+        if (searchQuery) searchQuery = await translateToEnglish(searchQuery);
+        searchIngredients = await Promise.all(searchIngredients.map(i => translateToEnglish(i)));
+        console.log('[handleSearch] translated query:', searchQuery);
+        console.log('[handleSearch] translated ingredients:', searchIngredients);
       }
-      const data = await searchRecipes(buildParams(0, overrides));
+      const params = buildParams(0, searchQuery, searchIngredients);
+      console.log('[handleSearch] params sent to searchRecipes:', params);
+      const data = await searchRecipes(params);
       setRecipes(data.results ?? []);
       setTotalResults(data.totalResults ?? 0);
     } catch (err) {
@@ -81,7 +81,11 @@ function HomePage() {
     const nextOffset = offset + PAGE_SIZE;
     setLoadingMore(true);
     try {
-      const data = await searchRecipes(buildParams(nextOffset));
+      const data = await searchRecipes(buildParams(
+        nextOffset,
+        query.trim(),
+        ingredientInputs.map(i => i.trim()).filter(Boolean)
+      ));
       setRecipes(prev => [...prev, ...(data.results ?? [])]);
       setOffset(nextOffset);
     } catch (err) {
