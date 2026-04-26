@@ -324,11 +324,11 @@ body {
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
-  right: 0;
-  background: var(--bg-card);
+  width: 100%;
+  background: white;
   border: 1px solid var(--border-soft);
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
   list-style: none;
   padding: 4px 0;
   margin: 0;
@@ -346,6 +346,20 @@ body {
 
 .autocomplete-dropdown li:hover {
   background: var(--bg-soft);
+}
+
+.autocomplete-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.autocomplete-item:hover {
+  background: var(--bg-soft);
+}
+
+.ingredient-input-wrap {
+  position: relative;
 }
 
 .remove-ingredient-button,
