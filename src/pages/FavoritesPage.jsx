@@ -1,27 +1,27 @@
 import { Link } from 'react-router-dom';
 import { useFavoritesContext } from '../context/FavoritesContext';
-import { useLanguage } from '../context/LanguageContext';
 import MealCard from '../components/MealCard';
 
 function FavoritesPage() {
   const { favorites } = useFavoritesContext();
-  const { t } = useLanguage();
 
   return (
     <div className="container page-content">
       <div className="favorites-header">
-        <h1>{t.favorites.title}</h1>
+        <h1>My Favorites</h1>
         {favorites.length > 0 && (
-          <span className="count-label">{t.favorites.savedCount(favorites.length)}</span>
+          <span className="count-label">
+            {`${favorites.length} saved recipe${favorites.length !== 1 ? 's' : ''}`}
+          </span>
         )}
       </div>
 
       {favorites.length === 0 ? (
         <div className="empty-state">
           <span className="empty-state-icon">♥</span>
-          <h3>{t.favorites.noFavorites}</h3>
-          <p>{t.favorites.noFavoritesSubtitle}</p>
-          <Link to="/" className="back-link">{t.favorites.browse}</Link>
+          <h3>No favorites yet</h3>
+          <p>Hit the heart on any recipe to save it here for later.</p>
+          <Link to="/" className="back-link">Browse Recipes</Link>
         </div>
       ) : (
         <div className="results-grid">

@@ -1,16 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useFavoritesContext } from '../context/FavoritesContext';
-import { useLanguage } from '../context/LanguageContext';
 
 function MealCard({ recipe }) {
   const { isFavorite, toggleFavorite } = useFavoritesContext();
-  const { t } = useLanguage();
   const calories = recipe.nutrition?.nutrients?.find(n => n.name === 'Calories');
 
   const tags = [
-    recipe.vegetarian && t.detail.vegetarian,
-    recipe.vegan      && t.detail.vegan,
-    recipe.glutenFree && t.detail.glutenFree,
+    recipe.vegetarian && 'Vegetarian',
+    recipe.vegan      && 'Vegan',
+    recipe.glutenFree && 'Gluten Free',
   ].filter(Boolean);
 
   function handleFavClick(e) {
@@ -34,7 +32,7 @@ function MealCard({ recipe }) {
           )}
           {recipe.readyInMinutes && (
             <p className="meal-area" style={{ color: 'var(--text-muted)', fontWeight: 500 }}>
-              ⏱ {recipe.readyInMinutes} {t.detail.minutes}
+              ⏱ {recipe.readyInMinutes} Min
             </p>
           )}
           {tags.length > 0 && (
@@ -47,7 +45,7 @@ function MealCard({ recipe }) {
       <button
         className={`fav-btn${isFavorite(recipe.id) ? ' active' : ''}`}
         onClick={handleFavClick}
-        aria-label={isFavorite(recipe.id) ? t.common.saved : t.common.save}
+        aria-label={isFavorite(recipe.id) ? '♥ Saved' : '♡ Save to Favorites'}
       >
         {isFavorite(recipe.id) ? '♥' : '♡'}
       </button>

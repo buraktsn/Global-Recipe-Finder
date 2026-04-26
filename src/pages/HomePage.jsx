@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { searchRecipes } from '../api/spoonacular';
-import { translateToEnglish } from '../api/translate';
-import { useLanguage } from '../context/LanguageContext';
 import SearchForm from '../components/SearchForm';
 import SearchTabs from '../components/SearchTabs';
 import FilterPanel from '../components/FilterPanel';
@@ -17,8 +15,6 @@ const EMPTY_FILTERS = {
 const PAGE_SIZE = 12;
 
 function HomePage() {
-  const { lang: language, t } = useLanguage();
-
   const [activeTab, setActiveTab] = useState('meal');
   const [query, setQuery] = useState('');
   const [ingredientInputs, setIngredientInputs] = useState(['']);
@@ -53,19 +49,9 @@ function HomePage() {
     setHasSearched(true);
     setOffset(0);
     try {
-      console.log('[handleSearch] language:', language);
-      console.log('[handleSearch] original query:', query);
-      let searchQuery = query.trim();
-      let searchIngredients = ingredientInputs.map(i => i.trim()).filter(Boolean);
-      if (language === 'tr') {
-        if (searchQuery) searchQuery = await translateToEnglish(searchQuery);
-        searchIngredients = await Promise.all(searchIngredients.map(i => translateToEnglish(i)));
-        console.log('[handleSearch] translated query:', searchQuery);
-        console.log('[handleSearch] translated ingredients:', searchIngredients);
-      }
-      const params = buildParams(0, searchQuery, searchIngredients);
-      console.log('[handleSearch] params sent to searchRecipes:', params);
-      const data = await searchRecipes(params);
+      const searchQuery = query.trim();
+      const searchIngredients = ingredientInputs.map(i => i.trim()).filter(Boolean);
+      const data = await searchRecipes(buildParams(0, searchQuery, searchIngredients));
       setRecipes(data.results ?? []);
       setTotalResults(data.totalResults ?? 0);
     } catch (err) {
@@ -110,13 +96,13 @@ function HomePage() {
     <div className="container page-content">
       <section className="hero-section">
         <div className="hero-overlay">
-          <h1>{t.hero.title}</h1>
-          <p>{t.hero.subtitle}</p>
+          <h1>Discover Recipes From Around the World</h1>
+          <p>Search by name or ingredient, filter by cuisine and calories</p>
         </div>
       </section>
 
       <section className="search-section">
-        <p className="search-lead">{t.search.lead}</p>
+        <p className="search-lead">Search by meal name or ingredient and discover new dishes.</p>
         <SearchTabs activeTab={activeTab} onChangeTab={handleTabChange} />
         <SearchForm
           activeTab={activeTab}
@@ -137,14 +123,14 @@ function HomePage() {
       <FilterPanel filters={filters} onChange={setFilters} onApply={handleSearch} />
 
       <section className="results-section" aria-live="polite">
-        {loading && <div className="spinner" role="status" aria-label={t.results.loading} />}
+        {loading && <div className="spinner" role="status" aria-label="Loading…" />}
         {error && <p className="state-message error">{error}</p>}
 
         {!loading && hasSearched && !error && (
           <p className="results-count">
             {recipes.length === 0
-              ? t.results.noResults
-              : t.results.found(recipes.length, totalResults)}
+              ? 'No recipes found. Try adjusting your search or filters.'
+              : `${recipes.length} of ${totalResults} recipes`}
           </p>
         )}
 
@@ -162,7 +148,7 @@ function HomePage() {
                 onClick={handleLoadMore}
                 disabled={loadingMore}
               >
-                {loadingMore ? <span className="spinner-inline" /> : t.results.loadMore}
+                {loadingMore ? <span className="spinner-inline" /> : 'Load More'}
               </button>
             )}
           </>
@@ -171,8 +157,8 @@ function HomePage() {
         {!loading && hasSearched && recipes.length === 0 && !error && (
           <div className="empty-state">
             <span className="empty-state-icon">🍽</span>
-            <h3>{t.emptyState.title}</h3>
-            <p>{t.emptyState.subtitle}</p>
+            <h3>No recipes found</h3>
+            <p>Try a different search term or adjust your filters.</p>
           </div>
         )}
       </section>

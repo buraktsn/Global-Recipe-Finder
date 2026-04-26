@@ -1,5 +1,3 @@
-import { useLanguage } from '../context/LanguageContext';
-
 function SearchForm({
   activeTab,
   query,
@@ -10,8 +8,6 @@ function SearchForm({
   onRemoveIngredient,
   onSearch,
 }) {
-  const { t } = useLanguage();
-
   if (activeTab === 'ingredient') {
     return (
       <form className="search-form ingredient-form" onSubmit={onSearch}>
@@ -22,8 +18,8 @@ function SearchForm({
                 type="text"
                 value={ingredient}
                 onChange={(e) => onIngredientChange(index, e.target.value)}
-                placeholder={t.search.ingredientPlaceholder}
-                aria-label={`${t.search.byIngredient} ${index + 1}`}
+                placeholder="e.g. chicken, tomato, garlic…"
+                aria-label={`Ingredient ${index + 1}`}
                 className="search-input"
               />
               {ingredients.length > 1 && (
@@ -32,7 +28,7 @@ function SearchForm({
                   className="remove-ingredient-button"
                   onClick={() => onRemoveIngredient(index)}
                 >
-                  {t.search.removeIngredient}
+                  Remove
                 </button>
               )}
             </div>
@@ -40,9 +36,9 @@ function SearchForm({
         </div>
         <div className="ingredient-actions">
           <button type="button" className="add-ingredient-button" onClick={onAddIngredient}>
-            {t.search.addIngredient}
+            + Add Ingredient
           </button>
-          <button type="submit" className="search-button">{t.search.searchButton}</button>
+          <button type="submit" className="search-button">Search</button>
         </div>
       </form>
     );
@@ -54,11 +50,11 @@ function SearchForm({
         type="text"
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
-        placeholder={t.search.mealPlaceholder}
-        aria-label={t.search.mealPlaceholder}
+        placeholder="Search recipes (e.g. pasta, butter chicken, tacos…)"
+        aria-label="Search recipes"
         className="search-input"
       />
-      <button type="submit" className="search-button">{t.search.searchButton}</button>
+      <button type="submit" className="search-button">Search</button>
     </form>
   );
 }

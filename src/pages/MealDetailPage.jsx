@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getRecipeById } from '../api/spoonacular';
 import { useFavoritesContext } from '../context/FavoritesContext';
-import { useLanguage } from '../context/LanguageContext';
 
 function getNutrient(nutrients, name) {
   const n = nutrients?.find(n => n.name === name);
@@ -12,7 +11,6 @@ function getNutrient(nutrients, name) {
 function MealDetailPage() {
   const { id } = useParams();
   const { isFavorite, toggleFavorite } = useFavoritesContext();
-  const { t } = useLanguage();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -37,20 +35,20 @@ function MealDetailPage() {
   const steps = recipe?.analyzedInstructions?.[0]?.steps ?? [];
 
   const dietTags = recipe ? [
-    recipe.vegetarian  && t.detail.vegetarian,
-    recipe.vegan       && t.detail.vegan,
-    recipe.glutenFree  && t.detail.glutenFree,
-    recipe.dairyFree   && t.detail.dairyFree,
-    recipe.veryHealthy && t.detail.veryHealthy,
+    recipe.vegetarian  && 'Vegetarian',
+    recipe.vegan       && 'Vegan',
+    recipe.glutenFree  && 'Gluten Free',
+    recipe.dairyFree   && 'Dairy Free',
+    recipe.veryHealthy && 'Very Healthy',
   ].filter(Boolean) : [];
 
   return (
     <div className="container page-content">
-      <Link to="/" className="back-link">{t.detail.back}</Link>
+      <Link to="/" className="back-link">← Back to search</Link>
 
-      {loading && <div className="spinner" role="status" aria-label={t.results.loading} />}
+      {loading && <div className="spinner" role="status" aria-label="Loading…" />}
       {error   && <p className="state-message error">{error}</p>}
-      {!loading && !error && !recipe && <p className="state-message">{t.common.unknown}</p>}
+      {!loading && !error && !recipe && <p className="state-message">Unknown</p>}
 
       {!loading && !error && recipe && (
         <article className="meal-detail">
@@ -75,19 +73,19 @@ function MealDetailPage() {
               {recipe.readyInMinutes && (
                 <div className="stat-box">
                   <span className="stat-value">{recipe.readyInMinutes}</span>
-                  <span className="stat-label">{t.detail.minutes}</span>
+                  <span className="stat-label">Min</span>
                 </div>
               )}
               {recipe.servings && (
                 <div className="stat-box">
                   <span className="stat-value">{recipe.servings}</span>
-                  <span className="stat-label">{t.detail.servings}</span>
+                  <span className="stat-label">Servings</span>
                 </div>
               )}
               {calories != null && (
                 <div className="stat-box">
                   <span className="stat-value">{calories}</span>
-                  <span className="stat-label">{t.detail.calories}</span>
+                  <span className="stat-label">Calories</span>
                 </div>
               )}
             </div>
@@ -117,12 +115,12 @@ function MealDetailPage() {
               style={{ position: 'static', width: 'auto', borderRadius: 10, padding: '8px 18px', height: 'auto', gap: 6 }}
               onClick={() => toggleFavorite(recipe)}
             >
-              {isFavorite(recipe.id) ? t.common.saved : t.common.save}
+              {isFavorite(recipe.id) ? '♥ Saved' : '♡ Save to Favorites'}
             </button>
 
             {recipe.extendedIngredients?.length > 0 && (
               <>
-                <h2>{t.detail.ingredients}</h2>
+                <h2>Ingredients</h2>
                 <ul>
                   {recipe.extendedIngredients.map(ing => (
                     <li key={ing.id ?? ing.original}>{ing.original}</li>
@@ -133,7 +131,7 @@ function MealDetailPage() {
 
             {steps.length > 0 ? (
               <>
-                <h2>{t.detail.instructions}</h2>
+                <h2>Instructions</h2>
                 <ol className="steps-list">
                   {steps.map(step => (
                     <li key={step.number}>
@@ -145,14 +143,14 @@ function MealDetailPage() {
               </>
             ) : recipe.instructions ? (
               <>
-                <h2>{t.detail.instructions}</h2>
+                <h2>Instructions</h2>
                 <p className="instructions">{recipe.instructions}</p>
               </>
             ) : null}
 
             {recipe.sourceUrl && (
               <a href={recipe.sourceUrl} target="_blank" rel="noreferrer" className="youtube-link">
-                {t.detail.viewOriginal}
+                View Full Recipe Source ↗
               </a>
             )}
           </div>

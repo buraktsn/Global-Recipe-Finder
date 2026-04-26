@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { CUISINES } from '../api/spoonacular';
-import { useLanguage } from '../context/LanguageContext';
 
 function FilterPanel({ filters, onChange, onApply }) {
-  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
 
   const { minCalories, maxCalories, excludeIngredients, cuisines } = filters;
@@ -54,7 +52,7 @@ function FilterPanel({ filters, onChange, onApply }) {
         aria-expanded={open}
       >
         <span className="filter-toggle-left">
-          <span>{t.filters.title}</span>
+          <span>⚙ Filters</span>
           {activeCount > 0 && <span className="filter-badge">{activeCount}</span>}
         </span>
         <span>{open ? '▲' : '▼'}</span>
@@ -63,12 +61,12 @@ function FilterPanel({ filters, onChange, onApply }) {
       {open && (
         <div className="filter-body">
           <div>
-            <p className="filter-section-label">{t.filters.calorieRange}</p>
+            <p className="filter-section-label">Calories</p>
             <div className="calorie-inputs">
               <input
                 type="number"
                 min={0}
-                placeholder={t.filters.min}
+                placeholder="Min"
                 value={minCalories}
                 onChange={e => onChange({ ...filters, minCalories: e.target.value })}
               />
@@ -76,7 +74,7 @@ function FilterPanel({ filters, onChange, onApply }) {
               <input
                 type="number"
                 min={0}
-                placeholder={t.filters.max}
+                placeholder="Max"
                 value={maxCalories}
                 onChange={e => onChange({ ...filters, maxCalories: e.target.value })}
               />
@@ -84,14 +82,14 @@ function FilterPanel({ filters, onChange, onApply }) {
           </div>
 
           <div>
-            <p className="filter-section-label">{t.filters.excludeIngredients}</p>
+            <p className="filter-section-label">Exclude Ingredients</p>
             <div className="ingredient-inputs">
               {excludeIngredients.map((val, i) => (
                 <div key={i} className="ingredient-row">
                   <input
                     type="text"
                     className="search-input"
-                    placeholder={t.search.ingredientPlaceholder}
+                    placeholder="e.g. chicken, tomato, garlic…"
                     value={val}
                     onChange={e => updateExclude(i, e.target.value)}
                   />
@@ -113,12 +111,12 @@ function FilterPanel({ filters, onChange, onApply }) {
               style={{ marginTop: 8 }}
               onClick={addExclude}
             >
-              {t.filters.addExclude}
+              + Add
             </button>
           </div>
 
           <div>
-            <p className="filter-section-label">{t.filters.cuisine}</p>
+            <p className="filter-section-label">Cuisine</p>
             <div className="cuisine-grid">
               {CUISINES.map(c => (
                 <button
@@ -135,10 +133,10 @@ function FilterPanel({ filters, onChange, onApply }) {
 
           <div className="filter-actions">
             <button type="button" className="filter-apply-btn" onClick={handleApply}>
-              {t.filters.applyFilters}
+              Apply Filters
             </button>
             <button type="button" className="filter-clear-btn" onClick={clearAll}>
-              {t.filters.clearAll}
+              Clear All
             </button>
           </div>
         </div>
