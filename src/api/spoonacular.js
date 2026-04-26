@@ -72,6 +72,13 @@ export async function autocompleteIngredients(query, number = 5) {
   }
 }
 
+export async function autocompleteIngredient(query) {
+  const params = new URLSearchParams({ apiKey: API_KEY, query, number: 5 });
+  const res = await fetch(`https://api.spoonacular.com/food/ingredients/autocomplete?${params}`);
+  if (!res.ok) return [];
+  return res.json();
+}
+
 export async function getRecipeById(id) {
   const params = new URLSearchParams({
     apiKey: API_KEY,
